@@ -112,6 +112,9 @@ public class Zip extends File {
             ZipArchiveEntry entry = (ZipArchiveEntry) entries.nextElement();
             if (false == entry.isDirectory()) {
                 File outputFile = new File(target, entry.getName());
+                if (!outputFile.toPath().normalize().startsWith(target.toPath().normalize())) {
+                    throw new IOException("Bad zip entry");
+                }
 
                 /* Ensure that our directory exists because this Zip might not
                  * have included the directory setup*/
